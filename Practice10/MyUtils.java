@@ -31,10 +31,10 @@ public class MyUtils {
         statement.executeUpdate("CREATE SCHEMA IF NOT EXISTS " + this.schemaName + ";");
     }
     public void dropSchema() throws SQLException {
-    	statement.executeUpdate("DROP SCHEMA IF EXISTS");
+    	statement.executeUpdate("DROP SCHEMA IF EXISTS " + this.schemaName + ";");
     }
     public void useSchema() throws SQLException {
-    	statement.executeUpdate("USE SCHEMA IF EXISTS");
+    	statement.executeUpdate("SET SCHEMA " + this.schemaName + ";");
     }
     public void createTableRoles() throws SQLException {
     	statement.executeUpdate("CREATE TABLE IF NOT EXISTS Roles (id INT primary key auto_increment , roleName TEXT)");
@@ -61,7 +61,7 @@ public class MyUtils {
     	statement.executeUpdate("INSERT INTO Projects (projectName,directionID) VALUES ('"+projectName+"',"+getDirectionId(directionName)+");");
     }
     public void insertTableEmployee(String firstName, String roleName, String projectName) throws SQLException {
-    	statement.executeUpdate("INSERT INTO Employee (firstName,roleName,projectName) VALUES('"+firstName+"','"+roleName+"','"+projectName+");");
+    	statement.executeUpdate("INSERT INTO Employee (firstName,roleId,projectId) VALUES('"+firstName+"','"+getRoleId(roleName)+"','"+getProjectId(projectName)+");");
     }
     public int getRoleId(String roleName) throws SQLException {
     	ResultSet resultSet = statement.executeQuery("SELECT id FROM Roles WHERE roleName = \'"+roleName+"\'");
@@ -132,4 +132,5 @@ public class MyUtils {
     		roles.add(resultSet.getString("firstName"));
 		return roles;
     }
+
 }
